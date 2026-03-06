@@ -28,14 +28,8 @@ Resources:
     Properties:
       CodeUri: hello_world/
       Handler: app.lambda_handler
-      Environment:
-        Variables:
-          TABLE_NAME: !Sub users-table-${Environment} # Solo para ESTA función
       Architectures:
         - x86_64
-      Policies:
-        - DynamoDBCrudPolicy:
-            TableName: !Ref VisitsTable
       Events:
         HelloWorld:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -55,6 +49,26 @@ Resources:
           Type: Api
           Properties:
             Path: /goodbye
+            Method: get
+
+  VisitsFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: visits/
+      Handler: app.lambda_handler
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref VisitsTable # Solo para ESTA función
+      Architectures:
+        - x86_64
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref VisitsTable
+      Events:
+        HelloWorld:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /visits
             Method: get
 
   VisitsTable:

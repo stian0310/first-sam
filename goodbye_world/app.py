@@ -6,5 +6,5 @@ def goodbye_fn(event, context):
 
     return {
         "statusCode": 200,
-        "body": json.dumps({"message": f"Adiós {name}!", "input": event})
+        "body": json.dumps({"message": f"Adiós {name}!"})
     }
